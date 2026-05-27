@@ -43,6 +43,14 @@ This MCP server provides access to all KnowBe4 Reporting API endpoints:
 
 ## Installation
 
+You have two options: run the published package directly with `npx` (no install, recommended), or clone and build locally.
+
+### Option 1: Run with npx (recommended)
+
+No installation needed — `npx` will fetch and run the latest published version of `knowbe4-mcp-server` on demand. Skip ahead to [Usage with Claude Desktop](#usage-with-claude-desktop) and use the npx config snippet.
+
+### Option 2: Install from source
+
 1. Clone or download this repository
 2. Install dependencies:
 
@@ -91,7 +99,32 @@ Edit: `~/Library/Application Support/Claude/claude_desktop_config.json`
 ### Windows
 Edit: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add the following configuration:
+### Using npx (no install)
+
+This is the simplest setup — `npx` downloads and caches the package the first time Claude Desktop launches it. The `-y` flag is required so npx doesn't prompt for confirmation (which would break the stdio handshake).
+
+```json
+{
+  "mcpServers": {
+    "knowbe4": {
+      "command": "npx",
+      "args": ["-y", "knowbe4-mcp-server@1.0.0"],
+      "env": {
+        "KNOWBE4_API_KEY": "your-api-key-here",
+        "KNOWBE4_REGION": "us"
+      }
+    }
+  }
+}
+```
+
+The args pin to `knowbe4-mcp-server@1.0.0` for reproducibility. Drop the `@1.0.0` suffix to always pull the latest published version.
+
+> **Windows note:** if `command: "npx"` fails to launch from Claude Desktop, use `"command": "npx.cmd"` instead.
+
+### Using a local build
+
+If you cloned and built the repo (Option 2 above):
 
 ```json
 {
