@@ -8,6 +8,8 @@
   },
   "scripts": {
     "build": "tsc",
+    "postbuild": "chmod +x build/src/index.js",
+    "prepare": "npm run build",
     "watch": "tsc --watch",
     "start": "node build/src/index.js",
     "test": "npm run build && node --test build/tests/**/*.test.js",
