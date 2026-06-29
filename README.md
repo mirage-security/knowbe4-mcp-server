@@ -43,6 +43,16 @@ This MCP server provides access to all KnowBe4 Reporting API endpoints:
 
 ## Installation
 
+You can run the server with `npx` (no local install) or clone and build it yourself. Most users should pick one of the npx forms — see [Usage with Claude Desktop](#usage-with-claude-desktop) for the matching config snippets.
+
+| Form | When to use |
+| --- | --- |
+| `npx -y knowbe4-mcp-server` | Default: pulls the published package from npm. Recommended for end users. |
+| `npx -y github:<owner>/knowbe4-mcp-server` | When you need an unreleased change, a fork, or a specific branch. |
+| Clone + `npm run build` | When you're developing the server itself. |
+
+### From source (for development)
+
 1. Clone or download this repository
 2. Install dependencies:
 
@@ -55,6 +65,8 @@ npm install
 ```bash
 npm run build
 ```
+
+The `prepare` lifecycle script also runs `npm run build` automatically when the package is installed from a Git source, so `npx github:...` works without a manual build step.
 
 ## Configuration
 
@@ -91,7 +103,53 @@ Edit: `~/Library/Application Support/Claude/claude_desktop_config.json`
 ### Windows
 Edit: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add the following configuration:
+Pick one of the three forms below.
+
+### Option A: npx from the npm registry (recommended)
+
+Zero install — npx fetches the published package on first launch and caches it. The `-y` flag is required so npx doesn't prompt for confirmation, which would corrupt the MCP stdio handshake.
+
+```json
+{
+  "mcpServers": {
+    "knowbe4": {
+      "command": "npx",
+      "args": ["-y", "knowbe4-mcp-server"],
+      "env": {
+        "KNOWBE4_API_KEY": "your-api-key-here",
+        "KNOWBE4_REGION": "us"
+      }
+    }
+  }
+}
+```
+
+Once you've confirmed it works, pin the version for reproducibility: `"knowbe4-mcp-server@1.0.1"` (or whichever version you tested). On Windows, use `"command": "npx.cmd"` if `npx` fails to launch from Claude Desktop.
+
+### Option B: npx from a Git source
+
+Use this to run an unreleased change, a fork, or a specific branch. npm clones the repo and the `prepare` script builds it on install — no manual `npm run build` needed.
+
+```json
+{
+  "mcpServers": {
+    "knowbe4": {
+      "command": "npx",
+      "args": ["-y", "github:mirage-security/knowbe4-mcp-server"],
+      "env": {
+        "KNOWBE4_API_KEY": "your-api-key-here",
+        "KNOWBE4_REGION": "us"
+      }
+    }
+  }
+}
+```
+
+Replace the `github:` target with `github:<owner>/<repo>#<branch>` to pin to a fork or branch.
+
+### Option C: local build
+
+If you cloned and built the repo yourself (see [From source](#from-source-for-development)):
 
 ```json
 {

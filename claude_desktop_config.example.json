@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "knowbe4": {
-      "command": "node",
-      "args": ["/absolute/path/to/knowbe4-mcp-server/build/src/index.js"],
+      "command": "npx",
+      "args": ["-y", "knowbe4-mcp-server"],
       "env": {
         "KNOWBE4_API_KEY": "your-knowbe4-api-key-here",
         "KNOWBE4_REGION": "us"
